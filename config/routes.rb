@@ -13,7 +13,7 @@ Spree::Core::Engine.routes.draw do
     resource :product_question_settings, only: %i[edit update]
   end
 
-  resources :product_questions, only: [:create]
+  resources :product_questions, only: [:create] if Spree::Core::Engine.frontend_available?
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v2 do
