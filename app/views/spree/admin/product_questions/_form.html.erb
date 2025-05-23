@@ -1,57 +1,56 @@
 <div data-hook="admin_product_question_form_fields">
-  <%= f.field_container :content, class: ['form-group'] do %>
+  <div class="form-group">
     <%= f.label :content, "#{Spree::ProductQuestion.model_name.human}*" %>
-    <%= f.text_area :content, { rows: 4, class: 'form-control' } %>
+    <%= f.text_area :content, rows: 4, class: 'form-control' %>
     <%= f.error_message_on :content %>
-  <% end %>
+  </div>
 
-  <%= f.fields_for :product_answer, @product_question.answer_for_form, class: ['form-group'] do |a| %>
-    <%= a.label :content, raw(Spree::ProductAnswer.model_name.human + content_tag(:span, ' *', class: 'required')) %>
-    <%= a.text_area :content, { rows: "4", class: 'form-control' } %>
-  <% end %>
-
-  <%= f.field_container :user_id, class: ['form-group'], style: 'margin-top: 10px;' do %>
-    <%= f.label :user_id, Spree.t(:user) %>
-    <%= f.select(
-          :user_id, 
-          options_from_collection_for_select(Spree::User.all, 'id', 'email', f.object.user_id), 
-          { include_blank: Spree.t('products_qa.select_user') }, 
-          { class: 'select2' }
-        ) %>
-  <% end %>
-
-  <div class="row form-group" style="margin-top: 20px;">
-    <div class="col-12 col-md-6">
-      <%= f.field_container :full_name do %>
-        <%= f.label :full_name, raw(Spree.t('products_qa.full_name')) %>
-        <%= f.text_field :full_name, class: "form-control" %>
-        <%= f.error_message_on :full_name %>
+  <%= f.fields_for :product_answer, f.object.product_answer || f.object.build_product_answer do |a| %>
+    <div class="form-group">
+      <%= a.label :content, raw(Spree.t(:answer) + content_tag(:span, ' *', class: 'required')) %>
+      <%= a.text_area :content, rows: 4, class: 'form-control' %>
+      <% if a.object.errors[:content].present? %>
+        <div class="invalid-feedback d-block">
+          <%= a.object.errors[:content].join(', ') %>
+        </div>
       <% end %>
     </div>
+  <% end %>
 
-    <div class="col-12 col-md-6">
-      <%= f.field_container :email do %>
-        <%= f.label :email, raw(Spree.t('products_qa.email')) %>
-        <%= f.text_field :email, class: "form-control" %>
-        <%= f.error_message_on :email %>
-      <% end %>
+  <div class="form-group">
+    <%= f.label :user_id, Spree.t(:user) %>
+    <%= f.select :user_id, 
+          options_from_collection_for_select(Spree::User.all, 'id', 'email', f.object.user_id), 
+          { include_blank: Spree.t('products_qa.select_user') }, 
+          { class: 'select2 form-control' } %>
+    <%= f.error_message_on :user_id %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :full_name, raw(Spree.t('products_qa.full_name')) %>
+    <%= f.text_field :full_name, class: 'form-control' %>
+    <%= f.error_message_on :full_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, raw(Spree.t('products_qa.email')) %>
+    <%= f.text_field :email, class: 'form-control' %>
+    <%= f.error_message_on :email %>
+  </div>
+
+  <div class="form-group">
+    <div class="custom-control custom-checkbox">
+      <%= f.check_box :is_visible, class: 'custom-control-input' %>
+      <%= f.label :is_visible, class: 'custom-control-label' %>
+      <%= f.error_message_on :is_visible %>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <%= f.field_container :is_visible, class: ['form-group'] do %>
-        <%= f.check_box :is_visible %>
-        <%= f.label :is_visible %>
-      <% end %>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <%= f.field_container :is_anonymous, class: ['form-group'] do %>
-        <%= f.check_box :is_anonymous %>
-        <%= f.label :is_anonymous %>
-      <% end %>
+  <div class="form-group">
+    <div class="custom-control custom-checkbox">
+      <%= f.check_box :is_anonymous, class: 'custom-control-input' %>
+      <%= f.label :is_anonymous, class: 'custom-control-label' %>
+      <%= f.error_message_on :is_anonymous %>
     </div>
   </div>
 </div>
-

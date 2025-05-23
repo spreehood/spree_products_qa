@@ -16,11 +16,11 @@ Gem::Specification.new do |s|
   s.homepage  = 'https://github.com/your-github-handle/spree_products_qa'
   s.license = 'BSD-3-Clause'
 
-  s.files       = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
+  s.files        = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree', '>= 4.7.0'
+  s.add_dependency 'spree', '>= 5.0.3'
   s.add_dependency 'spree_extension'
 
   s.add_development_dependency 'spree_dev_tools'

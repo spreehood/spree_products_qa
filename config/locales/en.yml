@@ -31,3 +31,4 @@ en:
       select_user: 'Please select a user'
       delete_unauthorized: 'You are not authorized to delete this question'
       update_unauthorized: 'You are not authorized to update this question'
+      create_unauthorized: 'You need to been logged in to ask a question'
