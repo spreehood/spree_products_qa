@@ -4,8 +4,7 @@ require 'spree_products_qa/configuration'
 
 module SpreeProductsQa
   def self.send_email?
-    return false
-    # defined?(Redis) && Redis.current.connected?
+    defined?(Redis) && Redis.current.connected?
   end
 
   def config(*)
