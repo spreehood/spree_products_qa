@@ -24,7 +24,7 @@ module Spree
 
       private
 
-      def product_question_params
+      def permitted_resource_params
         params.require(:product_question).permit(
           :content, :user_id, :full_name, :email, :is_visible, :is_anonymous,
           product_answer_attributes: [:id, :content, :_destroy]

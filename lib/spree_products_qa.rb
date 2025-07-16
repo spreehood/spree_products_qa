@@ -4,7 +4,9 @@ require 'spree_products_qa/configuration'
 
 module SpreeProductsQa
   def self.send_email?
-    defined?(Redis) && Redis.current.connected?
+    defined?(Redis) && Redis.new.ping == 'PONG'
+  rescue Redis::CannotConnectError, Redis::ConnectionError
+    false
   end
 
   def config(*)
