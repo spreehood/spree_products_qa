@@ -12,8 +12,7 @@ module SpreeProductsQa
     end
 
     initializer 'spree_products_qa.environment', before: :load_config_initializers do |_app|
-      require_dependency 'spree/product_question_setting'
-      SpreeProductsQa::Config = Spree::ProductQuestionSetting.new
+      SpreeProductsQa::Config = SpreeProductsQa::Configuration.new
     end
 
     def self.activate

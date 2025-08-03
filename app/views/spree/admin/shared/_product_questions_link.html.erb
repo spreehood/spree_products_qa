@@ -1,0 +1,6 @@
+<% if @product.persisted? %>
+  <div class="card mb-4">
+    <%= link_to 'Product Questions', spree.admin_product_product_questions_path(@product), class: 'btn btn-primary' %>
+  </div>
+<% end %>
+

@@ -2,7 +2,6 @@
     <%= button_link_to t(:back_to_questions_list), admin_product_product_questions_url(@product), { icon: 'icon-arrow-left', id: 'admin_new_question' } %>
 <% end %>
 
-<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: t('questions_and_answers') } %>
 <%= render partial: 'spree/admin/shared/error_messages', locals: { target: @product_question } %>
 
 <%= form_for [:admin, @product, @product_question], method: :post, html: { multipart: true } do |f| %>

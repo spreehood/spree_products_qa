@@ -1,13 +1,15 @@
 module SpreeProductsQa
   class Configuration < Spree::Preferences::Configuration
+    # allow anonymous questions
+    preference :allow_anonymous, :boolean, default: false
 
-   # Some example preferences are shown below, for more information visit:
-   # https://docs.spreecommerce.org/developer/contributing/creating-an-extension
-
-   # preference :enabled, :boolean, default: true
-   # preference :dark_chocolate, :boolean, default: true
-   # preference :color, :string, default: 'Red'
-   # preference :favorite_number, :integer
-   # preference :supported_locales, :array, default: [:en]
+    def load_preferences
+      stored_prefs = Spree::Preference.where("key LIKE 'spree_products_qa/config/%'")
+      
+      stored_prefs.each do |pref|
+        preference_name = pref.key.gsub('spree_products_qa/config/', '')
+        self[preference_name] = pref.value if respond_to?("#{preference_name}=")
+      end
+    end
   end
 end

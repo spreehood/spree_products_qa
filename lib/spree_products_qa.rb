@@ -1,5 +1,6 @@
 require 'spree_core'
 require 'spree_products_qa/engine'
+require 'spree_products_qa/configuration'
 
 module SpreeProductsQa
   def self.send_email?

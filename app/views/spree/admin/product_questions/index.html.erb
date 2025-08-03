@@ -1,80 +1,65 @@
-<% content_for :page_actions do %>
-  <% product_actions.items.each do |action| %>
-    <% next unless action.available?(current_ability) %>
-    <%= button_link_to(
-      Spree.t(action.label_translation_key),
-      action.url(@product),
-      class: action.classes,
-      icon: action.icon_key,
-      id: action.id,
-      target: action.target,
-      data: action.data_attributes
-    ) %>
-  <% end if product_actions&.items %>
-
-  <%= button_link_to t(:new_question), new_admin_product_product_question_url(@product), { class: "btn-success", icon: 'add.svg', id: 'admin_new_question' } %>
+<% content_for :page_title do %>
+  <%= page_header_back_button spree.admin_product_path(@product) %>
+  <%= @product.name %> : <%= Spree.t('products_qa.config_name') %>
 <% end %>
 
-<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: t('questions_and_answers') } %>
-
 <% if @collection.any? %>
-  <div class="table-responsive">
-    <table class="table" id="listing_product_questions" data-hook>
-      <thead>
-      <tr data-hook="admin_product_questions_index_headers">
-        <th>
-          <%= Spree::ProductQuestion.model_name.human %>
-        </th>
-        <th>
-          <%= Spree::ProductAnswer.model_name.human %>
-        </th>
-        <th>
-          <%= t('question.asked_by') %>
-        </th>
-        <th>
-          <%= t('question.is_visible') %>
-        </th>
-        <th data-hook="admin_product_questions_index_header_actions" class="actions"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |question| %>
-        <tr data-hook="admin_orders_index_rows" class="<%= cycle('odd', 'even') %>">
-          <td>
-            <%= question.try(:content) %>
-          </td>
-          <td>
-            <% if question.product_answer.present? %>
-              <%= question.product_answer.content %>
-            <% else %>
-              <span class="text-danger"><%= t('question.no_answer') %></span>
-            <% end %>
-          </td>
-          <td>
-            <% if question.user.present? %>
-              <%= link_to question.user.email, [:admin, question.user] if question.user.present? %>
-            <% end %>
-          </td>
-          <td class="text-center">
-            <span class="badge badge-secondary">
-              <%= question.is_visible ? Spree.t(:say_yes) : Spree.t(:say_no) %>
-            </span>
-          </td>
-          <td class="actions" data-hook="admin_product_questions_index_row_actions">
-            <%= link_to_edit question, no_text: true, class: 'edit' %>
-
-            <%= link_to_delete question, no_text: true %>
-          </td>
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr data-hook="admin_product_questions_index_headers">
+          <th>
+            <%= Spree::ProductQuestion.model_name.human %>
+          </th>
+          <th>
+            <%= Spree::ProductAnswer.model_name.human %>
+          </th>
+          <th>
+            <%= t('question.asked_by') %>
+          </th>
+          <th>
+            <%= t('question.is_visible') %>
+          </th>
+          <th data-hook="admin_product_questions_index_header_actions" class="actions"></th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+        <% @collection.each do |question| %>
+          <tr data-hook="admin_orders_index_rows" class="<%= cycle('odd', 'even') %>">
+            <td>
+              <%= question.try(:content) %>
+            </td>
+            <td>
+              <% if question.product_answer.present? %>
+                <%= question.product_answer.content %>
+              <% else %>
+                <span class="text-danger"><%= t('question.no_answer') %></span>
+              <% end %>
+            </td>
+            <td>
+              <% if question.user.present? %>
+                <%= link_to question.user.email, [:admin, question.user] if question.user.present? %>
+              <% end %>
+            </td>
+            <td>
+              <%= icon(question.is_visible? ? "check" : "cancel") %>
+            </td>
+            <td class="actions" data-hook="admin_product_questions_index_row_actions">
+              <%= link_to_edit question, no_text: true, class: 'edit' %>
 
+              <%= link_to_delete question, no_text: true %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% else %>
   <div class="alert alert-info no-objects-found">
-    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::ProductQuestion)) %>,
-    <%= link_to Spree.t(:add_one), new_object_url %>!
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::ProductQuestion)) %>!
+    <%= link_to Spree.t(:add_one), new_object_url %>
   </div>
 <% end %>
 

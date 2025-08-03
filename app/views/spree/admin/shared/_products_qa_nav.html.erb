@@ -1,0 +1,13 @@
+<% products_qa_active = %[product_questions product_question_settings].include?(controller_name) || @order %>
+
+<% if can?(:manage, Spree::ProductQuestion) || can?(:manage, Spree::Setting) %>
+  <% products_qa_label = Spree.t('products_qa.config_name') %>
+
+  <%= nav_item(products_qa_label.html_safe, spree.pending_admin_product_questions_path, icon: 'question-mark', active: products_qa_active) %>
+
+  <% if products_qa_active %>
+    <ul class="nav-submenu">
+      <%= nav_item(Spree.t('products_qa.product_question_settings'), spree.edit_admin_product_question_settings_path) %>
+    </ul>
+  <% end %>
+<% end %>
